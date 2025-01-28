@@ -19,13 +19,29 @@ export class WeatherService {
     
   }
   
-  async GetWeather(){
-  }
+  
 
   async retrieveWeatherFromApi(CreateWeatherDto):Promise<any>{
       
+  const cachedData= await this.cacheManager.get('weather')
+
+  if(cachedData){
+    return cachedData
+  }
+
+  const weatherData= await this.GetWeather(CreateWeatherDto)
+  await this.cacheManager.set('weather',weatherData)
+  return weatherData
+
+  }
+
+  
+
+  async GetWeather(CreateWeatherDto){
+
 
   const {latitude,longitude}=CreateWeatherDto
+
 
   const Api_url=this.configService.get("API_URI")
   const Api_key=this.configService.get("API_KEY")
@@ -43,10 +59,7 @@ export class WeatherService {
   }
 
 
-
-
   }
-  
   create(createWeatherDto: CreateWeatherDto) {
     return 'This action adds a new weather';
   }

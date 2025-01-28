@@ -16,7 +16,6 @@ export class WeatherController {
 
   @Get()
   findAll() {
-    return this.weatherService.GetWeather();
   }
 
   @Get(':id')

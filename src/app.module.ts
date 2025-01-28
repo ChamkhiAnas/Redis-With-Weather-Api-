@@ -15,6 +15,7 @@ import { CustomThrottlerGuard } from './weather/guards/customthrottler.guard';
   CacheModule.register(
     {
       isGlobal:true,
+      ttl:30 * 1000
     }
   ),
   ConfigModule.forRoot({
@@ -24,7 +25,7 @@ import { CustomThrottlerGuard } from './weather/guards/customthrottler.guard';
   ThrottlerModule.forRoot([{
     name: 'short',
     ttl: 10000,
-    limit: 8,
+    limit: 100,
     // generateKey:(req)=>req.user.id
 
   }]),  
