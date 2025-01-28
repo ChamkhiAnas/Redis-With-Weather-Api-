@@ -14,8 +14,7 @@ export class WeatherService {
 
     @Inject('CACHE_MANAGER') private  cacheManager:Cache,
     private readonly configService: ConfigService,
-    private readonly httpService: HttpService,
-  
+    private readonly httpService: HttpService,  
   ){
     
   }

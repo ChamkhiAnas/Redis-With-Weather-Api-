@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { WeatherService } from './weather.service';
 import { CreateWeatherDto } from './dto/create-weather.dto';
 import { UpdateWeatherDto } from './dto/update-weather.dto';
-
+import { SkipThrottle, Throttle, ThrottlerGuard } from '@nestjs/throttler';
+import { CustomThrottlerGuard } from './guards/customthrottler.guard';
+@UseGuards(ThrottlerGuard)
 @Controller('weather')
 export class WeatherController {
   constructor(private readonly weatherService: WeatherService) {}
