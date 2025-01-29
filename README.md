@@ -1,7 +1,7 @@
 
 
 
-# # Weather API 
+## Weather API 
 a weather API that fetches and returns weather data.
 	 
 ## Description 
@@ -12,11 +12,11 @@ In this project, instead of relying on my own  weather data, i build a weather A
 
 
 
-## ## Features
+##  Features
 
 -Get weather based on latitude and longitude and store the response in redis and read from it 
 
-## ## Roadmap challenge link
+##  Roadmap challenge link
 
 https://roadmap.sh/projects/weather-api-wrapper-service
 
