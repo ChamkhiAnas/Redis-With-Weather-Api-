@@ -10,7 +10,7 @@ import { HttpModule } from '@nestjs/axios';
   providers: [
     
     WeatherService,
- 
+    
 
   ],
 })

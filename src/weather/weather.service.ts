@@ -6,31 +6,41 @@ import { Cache } from 'cache-manager';
 import { ConfigService } from '@nestjs/config';
 import { lastValueFrom } from 'rxjs';
 
+import { RedisService, DEFAULT_REDIS } from '@liaoliaots/nestjs-redis';
+import Redis from 'ioredis';
+
 
 @Injectable()
 export class WeatherService {
-
+  private readonly redis: Redis | null;
   constructor(
 
     @Inject('CACHE_MANAGER') private  cacheManager:Cache,
     private readonly configService: ConfigService,
     private readonly httpService: HttpService,  
+    private readonly redisService: RedisService
   ){
-    
+    this.redis = this.redisService.getOrThrow();
   }
   
   
 
   async retrieveWeatherFromApi(CreateWeatherDto):Promise<any>{
+
+
+    const {latitude,longitude}=CreateWeatherDto
+
       
-  const cachedData= await this.cacheManager.get('weather')
+  const cachedData= await this.redis.get(`Weather${latitude}${longitude}`)
 
   if(cachedData){
-    return cachedData
+    return JSON.parse(cachedData)
   }
 
+
   const weatherData= await this.GetWeather(CreateWeatherDto)
-  await this.cacheManager.set('weather',weatherData)
+
+  await this.redis.set((`Weather${latitude}${longitude}`),JSON.stringify(weatherData) )
   return weatherData
 
   }

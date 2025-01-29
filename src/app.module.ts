@@ -1,23 +1,27 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CacheModule } from '@nestjs/cache-manager';
 import { WeatherModule } from './weather/weather.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
-import { CustomThrottlerGuard } from './weather/guards/customthrottler.guard';
-
+import { CacheModule } from '@nestjs/cache-manager';
+import { RedisModule, RedisService } from '@liaoliaots/nestjs-redis';
 @Module({
   imports: [
-    
-    
-  CacheModule.register(
-    {
-      isGlobal:true,
-      ttl:30 * 1000
-    }
-  ),
+    RedisModule.forRoot({
+      config: {
+        host: 'localhost',
+        port: 6379,
+        password: ''
+      }
+    }),
+    CacheModule.register(
+      {
+        isGlobal:true,
+        ttl:30 * 1000
+      }
+    ),
   ConfigModule.forRoot({
     isGlobal: true, // Makes the ConfigModule available globally
   }), 
