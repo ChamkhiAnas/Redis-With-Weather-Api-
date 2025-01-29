@@ -9,13 +9,17 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { RedisModule, RedisService } from '@liaoliaots/nestjs-redis';
 @Module({
   imports: [
-    RedisModule.forRoot({
-      config: {
-        host: 'localhost',
-        port: 6379,
-        password: ''
-      }
-    }),
+    RedisModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        config:{
+          host: configService.get('REDIS_HOST'),
+          port: configService.get('REDIS_PORT'),
+          password: ''
+        }
+      }),
+      inject: [ConfigService],
+      }),
     CacheModule.register(
       {
         isGlobal:true,
